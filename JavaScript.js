@@ -656,6 +656,7 @@ console.log(lolpp);
 
 
 //Async & Await
+console.log();
 const theUrl = 'https://www.heroku.com/home';
 global.fetch = require("node-fetch");
 function getTheUrl(){
@@ -670,5 +671,23 @@ function getTheUrl(){
 
 getTheUrl();
 
+
+async function fetchCat(userID){
+    return fetch(`https://catappapi.herokuapp.com/users/${userID}`)
+    .then(response => response.json())
+    .then(user => {
+        const promises = user.cats.map(catID =>
+            fetch(`https://catappapi.herokuapp.com/cats/${catID}`)
+            .then(response => response.json())
+            .then(catData => console.log(catData.imageUrl))
+        )
+        return Promise.all(promises)
+    })
+    
+} 
+
+const result = fetchCat(123);
+
+//--------------------------------------------------------
 
 
